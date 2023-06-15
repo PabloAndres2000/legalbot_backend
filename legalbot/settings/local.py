@@ -5,12 +5,13 @@ DEBUG = True
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": "postgres",
         "USER": "postgres",
         "PASSWORD": "postgres",
-        "HOST": "legalbot_postgres",
+        "HOST": "postgres",
         "PORT": 5432,
+        "DISABLE_SERVER_SIDE_CURSORS": True,
     }
 }
 

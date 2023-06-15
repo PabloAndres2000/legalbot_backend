@@ -3,7 +3,7 @@ version: "3.9"
 services:
     postgres:
         container_name: legalbot_postgres
-        image: postgis/postgis:14-3.2
+        image: postgres
         volumes:
             - ./data/db:/var/lib/postgresql/data
         environment:
@@ -24,31 +24,16 @@ services:
             - "8888:8888"
         depends_on:
             - postgres
-            - redis
-
-    celery:
-        build:
-            context: .
-            dockerfile: .docker/Dockerfile
-        command: celery -A legalbot worker -l INFO
-        volumes:
-            - .:/code
-        depends_on:
-            - redis
+            - pgadmin
 
     testdb:
-        image: circleci/postgres:12.3-postgis-ram
+        image: postgres
         environment:
             - POSTGRES_USER=testdb
             - POSTGRES_PASSWORD=testdb
             - POSTGRES_DB=testdb
         ports:
             - 5433:5432
-
-    redis:
-        image: redis:5.0.7-alpine
-        volumes:
-            - redis-data:/data
 
     pgadmin:
         container_name: pgadmin_container
