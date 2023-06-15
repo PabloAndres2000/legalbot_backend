@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+_usage() {
+  echo "developing"
+  echo "    up            start the server in development mode"
+  echo "    test          run test suites"
+  echo ""
+  echo "requirements"
+  echo "    pipi          install python requirements based on requirements.txt"
+  echo ""
+  echo "migrations"
+  echo "    migrate       run pending migrations"
+  echo "    makemig       make django migrations"
+  echo ""
+  echo "tools"
+  echo "    shell         enter the django shell"
+  echo "    black         run black"
+  echo "    isort         run isort"
+  echo "    createapp     create django app"
+  echo "    maketrans     compile translation messages"
+  echo "    csuser        create a new superuser"
+  echo "    jupyter       run jupyter notebook server"
+  exit 1
+}
+
+# show usage if no argument is given
+arg=${1:-}
+shift || _usage
+
+case ${arg} in
+test)
+  pytest "$@" --isort --black
+;;
+cov)
+  pytest "$@" --isort --black --cov=legalbot
+;;
+black)
+  black .
+;;
+isort)
+  isort .
+;;
+csuser)
+  python manage.py createsuperuser
+;;
+createapp)
+  mkdir ./legalbot/apps/"$@" &&
+  python manage.py startapp "$@" ./legalbot/apps/"$@"
+;;
+maketrans)
+  python manage.py compilemessages
+;;
+pipi)
+  pip install -r requirements.txt
+;;
+shell)
+  python manage.py shell
+;;
+migrate)
+  python manage.py migrate "$@"
+;;
+makemigrations|makemigration|makemig)
+  python manage.py makemigrations "$@"
+;;
+jupyter)
+  python manage.py shell_plus --notebook "$@"
+;;
+*)
+  _usage
+;;
+esac

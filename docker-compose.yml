@@ -1,0 +1,65 @@
+version: "3.9"
+
+services:
+    postgres:
+        container_name: legalbot_postgres
+        image: postgis/postgis:14-3.2
+        volumes:
+            - ./data/db:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_NAME=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+
+    legalbot_backend:
+        container_name: legalbot_backend
+        build:
+            context: .
+            dockerfile: .docker/Dockerfile
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - .:/code
+        ports:
+            - "8000:8000"
+            - "8888:8888"
+        depends_on:
+            - postgres
+            - redis
+
+    celery:
+        build:
+            context: .
+            dockerfile: .docker/Dockerfile
+        command: celery -A legalbot worker -l INFO
+        volumes:
+            - .:/code
+        depends_on:
+            - redis
+
+    testdb:
+        image: circleci/postgres:12.3-postgis-ram
+        environment:
+            - POSTGRES_USER=testdb
+            - POSTGRES_PASSWORD=testdb
+            - POSTGRES_DB=testdb
+        ports:
+            - 5433:5432
+
+    redis:
+        image: redis:5.0.7-alpine
+        volumes:
+            - redis-data:/data
+
+    pgadmin:
+        container_name: pgadmin_container
+        image: dpage/pgadmin4
+        restart: always
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+            - PGADMIN_DEFAULT_PASSWORD=1234
+        ports:
+            - 5050:80
+
+volumes:
+    data: {}
+    redis-data: {}
