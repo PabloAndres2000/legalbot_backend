@@ -1,57 +1,150 @@
-# Desafío backend Django
+# LegalBot Backend
 
-Desarrolla una API REST utilizando Django para gestionar un sistema de sociedades, socios y administradores.
+## Before starting
 
-## Endpoints requeridos:
+See `Deployment` and `Pre-requisites` to know how to install and deploy the project
 
-- **Crear una sociedad**: Un endpoint que permita crear una nueva sociedad. Una sociedad tiene al menos un nombre y un RUT.
+## Pre-requisites
 
-- **Crear un socio**: Un endpoint que permita crear un nuevo socio dentro de una sociedad. Un socio tiene al menos un nombre, RUT, dirección y participación
+- Docker
+- Docker-compose
 
-- **Crear un administrador**: Un endpoint que permita crear un administrador dentro de una sociedad. Un administrador tiene al menos un nombre, RUT y una lista de facultades como "Abrir una cuenta corriente", "Firmar cheques" o "Firmar contratos".
+## Make commands
+Use this command `export COMPOSE_FILE=local.yml` after to use commands make
+```
+make up
+-- Start the containers
+```
 
-- **Eliminar una sociedad**: Un endpoint que permita eliminar una sociedad existente.
+```
+make stop
+-- Stop docker containers whitout removing them
+```
 
-- **Obtener sociedades que contengan al socio o al administrador con el RUT indicado**: Un endpoint que devuelva todas las sociedades en las que está asociado un socio o administrador específico. El RUT del socio o administrador se pasará como parámetro en la URL.
+```
+make down
+-- Stop and remove docker containers
+```
 
-- **Obtener socios y administradores que están en la sociedad con el RUT indicado**: Un endpoint  que devuelva todos los socios y administradores que están asociados a una sociedad específica.
+```
+make build
+-- Rebuild docker image
+```
+## Dev commands
+This commands only work's inside backend container, for use it, you must use `make up` first
+```
+dev up
+-- Run the application
+```
 
-## Ejemplo dataset
+```
+dev pipi
+-- Install requirements
+```
 
-- **Legalbot SPA**
-  - RUT: 76.192.448-K
-  - Socios:
-    - **Esteban López López**
-      - RUT: 10.456.983-9
-      - Dirección: Av siempre viva 2436
-      - Participación: 50%
-    - **Juan García García**
-      - RUT: 15.192.932-6
-      - Dirección: Av holanda 2222
-      - Participación: 50%
-  - Administradores:
-    - **Esteban López López**
-      - RUT: 10.456.983-9
-      - Facultades:
-        - Abrir cuentas corrientes
-        - Firmar contratos de compraventa
-        - Firmar cheques
-    - **Miguel Gonzalez Gonzalez**
-      - RUT: 12.432.567-K
-      - Facultades:
-        - Firmar cheques
+```
+dev makemig
+-- Make migrations
+```
 
-## Requisitos técnicos:
+```
+dev migrate
+-- Migrate pending migrations
+```
 
-- Utiliza Django para desarrollar la API.
-- Incluye algunos test unitarios
-    
 
-## Puntos extras (opcionales, puedes seleccionar sólo uno):
+```
+dev createapp <APP_NAME>
+-- Create Django App
+```
 
-- Implementa autenticación y autorización en la API para proteger los endpoints.
-- Incluir un test de integración o E2E
+## Or change previous commands docker for docker-compose ...
 
-## Entrega
+This command `export COMPOSE_FILE=local.yml` is used to enable the use of docker-compose up, etc. without using -f local.yml ..
 
-- Sube tu código a un repositorio en github e invitanos (si es que es privado)
+```
+docker-compose up
+-- Run the application
+```
+
+```
+docker-compose build
+-- Rebuild docker image
+```
+
+```
+docker-compose down
+-- Stop and remove docker containers
+```
+
+## Enable debugger and remove django container
+
+A good practice is to separate django from postgres, redis and celery, because this will allow us to run django separately so that it allows us to iterate with it. The others will continue running normally, but separate from django.
+
+```
+docker-compose up
+-- Run the application
+```
+
+```
+docker-compose ps
+-- See the containers that run
+```
+
+```
+docker rm -f bajonazo-backend_django_1
+-- Remove Django service
+```
+
+```
+docker-compose run --rm --service-ports django
+-- detach Django services
+```
+
+## Delete the volume from the database
+
+It is advisable to always do this process when we are in prod, because it is cleaner to delete the migrations. But if we are in production it is advisable to use squash migrations.
+
+```
+docker-compose ps
+-- See the containers that run
+```
+
+```
+docker-compose down
+-- Stop and remove docker containers
+```
+
+```
+docker volume ls
+-- See volumes docker
+```
+
+```
+docker volume rm -f bajonazo-backend_local_postgres_data
+-- clear volume
+```
+
+```
+docker-compose run --rm django python manage.py makemigrations
+-- Apply makemigrations
+```
+
+```
+docker-compose run --rm django python manage.py migrate
+-- Migrate pending migrations
+```
+
+Finally
+
+```
+docker-compose up
+-- Run the application
+```
+
+# IMPORTANT
+## Development process on local
+1. Start the containers with `make up`
+2. Inside the backend container install the depencencies with `dev pipi`
+3. Run the application with `dev up`
+4. Code

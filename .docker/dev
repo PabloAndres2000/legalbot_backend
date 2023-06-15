@@ -4,7 +4,6 @@ set -euo pipefail
 _usage() {
   echo "developing"
   echo "    up            start the server in development mode"
-  echo "    test          run test suites"
   echo ""
   echo "requirements"
   echo "    pipi          install python requirements based on requirements.txt"
@@ -29,12 +28,7 @@ arg=${1:-}
 shift || _usage
 
 case ${arg} in
-test)
-  pytest "$@" --isort --black
-;;
-cov)
-  pytest "$@" --isort --black --cov=legalbot
-;;
+
 black)
   black .
 ;;
