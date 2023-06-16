@@ -16,11 +16,6 @@ def create_default_users(apps, schema_editor):
         last_name='lopez',
         password='esteban',
     )
-    miguel_user.uuid = '4244b0ea-edc4-4c8f-a4f8-3e5b95a45ba3'
-    miguel_user.save()
-
-    esteban_user.uuid = '5abb8658-996b-40d2-aa80-0d90592796e5'
-    esteban_user.save()
 
     juan_user = User.objects.create(
         uuid='5abb8658-996b-40d2-aa80-0d90592796e5',

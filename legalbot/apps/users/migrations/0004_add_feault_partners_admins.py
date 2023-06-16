@@ -6,9 +6,11 @@ from legalbot.apps.business.models import Business, Faculty
 def create_default_partners_admins(apps, schema_editor):
 
     # Get the user and business instances
-    juan_user = User.objects.get(uuid='32f5073d-2c2c-4dfe-a09d-3ee3a3a18ff1')
-    esteban_user = User.objects.get(uuid='5abb8658-996b-40d2-aa80-0d90592796e5')
-    miguel_user = User.objects.get(uuid='4244b0ea-edc4-4c8f-a4f8-3e5b95a45ba3')
+    miguel_user = User.objects.get(identification_number='12432567-K')
+
+    esteban_user = User.objects.get(identification_number='10456983-9')
+
+    juan_user = User.objects.get(identification_number='15192932-6')
     business = Business.objects.first()
 
     checks_faculty = Faculty.objects.get(name="Abrir cuentas corrientes")
