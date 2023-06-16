@@ -77,6 +77,31 @@ docker-compose down
 -- Stop and remove docker containers
 ```
 
+## ¿How to enter bash from windows?
+```
+- Step 1: open your powershell
+- Step 2: `docker exec -it legalbot_backend bash`
+          *Run this command to enter the bash(docker container) of legalbot_backend   
+```
+
+## What commands can I use if I am in bash from windows?
+`you can use these commands (example):`
+```
+python3 manage.py migrate
+-- Migrate pending migrations
+```
+
+```
+coverage run --source='legalbot/apps/users' -m pytest legalbot/apps/users/tests/test_providers/tests_admin.py
+-- Command to see the coverage of the tests
+```
+
+```
+pip3 install -r requirements.txt
+-- Install requirements
+```
+
+
 ## How to run Tests?
 
 To run the tests you must do this command(example):
