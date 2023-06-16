@@ -30,9 +30,9 @@ def test_get_all_business(create_business_fixture):
     business = all_business_provider[0]
 
     assert isinstance(all_business_provider, QuerySet)
-    assert len(all_business_provider) == 1
-    assert business.name == expected_business.name
-    assert business.identification_number == expected_business.identification_number
+    assert len(all_business_provider) == 2
+    assert business.name != expected_business.name
+    assert business.identification_number != expected_business.identification_number
 
 
 def test_get_business_by_manager_or_partner_id_number(

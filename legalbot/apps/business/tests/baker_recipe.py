@@ -13,5 +13,6 @@ class BusinessRecipes:
 
 class FacultyRecipes:
     def create_faculty_recipe():
-        faculty_recipe = Recipe("business.Faculty", name="Abrir cuentas corrientes")
+        faculty_recipe = Recipe(
+            "business.Faculty", name="Abrir cuentas corrientes")
         return faculty_recipe
