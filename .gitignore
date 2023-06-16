@@ -2,7 +2,6 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
 pgadmin_data
 postgres_data
-data
 
 ### Django ###
 *.log
