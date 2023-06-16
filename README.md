@@ -77,6 +77,34 @@ docker-compose down
 -- Stop and remove docker containers
 ```
 
+## How to run Tests?
+
+To run the tests you must do this command(example):
+`dev test legalbot/apps/users/tests/test_providers/tests_admin.py -v`
+
+How to run the tests created in a file?
+
+```
+dev test <file directory> -v
+-- Run the tests created by applications
+```
+
+¿How do test commands work?
+
+```
+dev test
+-- Check all the project files and if there is a code mess it will indicate that you should run Black or Isort
+```
+
+```
+dev black
+-- Order lines of code
+```
+
+```
+dev isort
+-- Order lines of code
+```
 
 # IMPORTANT
 ## Development process on local
