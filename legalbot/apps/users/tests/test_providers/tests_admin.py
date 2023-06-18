@@ -79,31 +79,3 @@ def test_check_if_admin_identification_number_exist(get_active_admins_fixture):
     )
 
     assert result is True
-
-
-# @pytest.mark.parametrize(
-#     "address,expected",
-#     (
-#         ("he military 7345", True),
-#         ("los andes #123", False),
-#         ("vitacura #23123", False),
-#         ("las condes #23123", False),
-#     ),
-# )
-# def test_check_if_partner_already_exists(
-#     address, expected, partner_with_user_and_business
-# ):
-#     user_uuid = str(partner_with_user_and_business.user.uuid)
-#     business_uuid = str(partner_with_user_and_business.business.uuid)
-
-#     result = partner_providers.check_if_partner_already_exists(
-#         user_uuid=user_uuid,
-#         business_uuid=business_uuid,
-#         address=address,
-#     )
-
-#     print(f"Address: {address}")
-#     print(f"Expected: {expected}")
-#     print(f"Result: {result}")
-
-#     assert result == expected
