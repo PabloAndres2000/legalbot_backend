@@ -10,7 +10,7 @@ from legalbot.utils.constants import TRY_AGAIN_LATER
 
 class PartnerAccessPolicy(AccessPolicy):
     """
-    Access policy for the AdminViewSet
+    Access policy for the PartnerViewSet
     """
 
     statements = [
