@@ -1,6 +1,3 @@
-from re import search
-from tokenize import group
-
 from rest_framework import serializers
 
 from legalbot.apps.business import services as business_services
@@ -9,16 +6,11 @@ from legalbot.apps.users.models import Partner
 from legalbot.apps.users.providers import partner as partner_providers
 from legalbot.apps.users.providers import user as user_providers
 
-# Utils (Error_handler)
-
 
 class PartnerListSerializer(serializers.ModelSerializer):
-    identification_number = serializers.CharField(
-        source="user.identification_number")
-    first_name = serializers.CharField(
-        source="user.first_name")
-    last_name = serializers.CharField(
-        source="user.last_name")
+    identification_number = serializers.CharField(source="user.identification_number")
+    first_name = serializers.CharField(source="user.first_name")
+    last_name = serializers.CharField(source="user.last_name")
 
     group = GroupSerializer(many=True, read_only=True, source="user.groups")
 
@@ -37,8 +29,7 @@ class PartnerListSerializer(serializers.ModelSerializer):
 
 
 class CreatePartnerSerializer(serializers.Serializer):
-    user = serializers.PrimaryKeyRelatedField(
-        queryset=user_providers.get_all_users())
+    user = serializers.PrimaryKeyRelatedField(queryset=user_providers.get_all_users())
     business = serializers.PrimaryKeyRelatedField(
         queryset=business_services.get_all_business()
     )
@@ -51,8 +42,7 @@ class CreatePartnerSerializer(serializers.Serializer):
         identification_number = user.identification_number
 
         if not identification_number:
-            raise serializers.ValidationError(
-                "Identification number is required.")
+            raise serializers.ValidationError("Identification number is required.")
 
         partner_already_exist = partner_providers.check_if_partner_already_exists(
             user_uuid=user, business_uuid=business, address=attrs["address"]

@@ -12,8 +12,7 @@ from legalbot.apps.users.providers import user as user_providers
 class AdministratorListSerializer(serializers.ModelSerializer):
     business_name = serializers.ReadOnlyField(source="business.name")
     first_name = serializers.ReadOnlyField(source="user.first_name")
-    identification_number = serializers.CharField(
-        source="user.identification_number")
+    identification_number = serializers.CharField(source="user.identification_number")
 
     group = GroupSerializer(many=True, read_only=True, source="user.groups")
     faculties = FacultyListSerializer(many=True, read_only=True)
@@ -33,8 +32,7 @@ class AdministratorListSerializer(serializers.ModelSerializer):
 
 
 class CreateAdminSerializer(serializers.Serializer):
-    user = serializers.PrimaryKeyRelatedField(
-        queryset=user_providers.get_all_users())
+    user = serializers.PrimaryKeyRelatedField(queryset=user_providers.get_all_users())
     business = serializers.PrimaryKeyRelatedField(
         queryset=business_services.get_all_business()
     )
@@ -57,8 +55,7 @@ class CreateAdminSerializer(serializers.Serializer):
             )
 
         if not identification_number:
-            raise serializers.ValidationError(
-                "Identification number is required.")
+            raise serializers.ValidationError("Identification number is required.")
 
         existing_admin = admin_providers.check_if_admin_identification_number_exist(
             identification_number=identification_number

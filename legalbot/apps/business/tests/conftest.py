@@ -2,7 +2,16 @@ import pytest
 
 from legalbot.apps.business.tests.baker_recipe import BusinessRecipes
 from legalbot.apps.users.tests.baker_recipe import AdminRecipes, PartnerRecipes
-from legalbot.apps.users.tests.conftest import create_admin_fixture as admin_create_fixture, create_user_fixture as user_create_fixture, get_create_partners_fixture as create_partner_fixture, non_existing_identification_number as global_non_existing_identification_number, non_existing_uuid as global_non_existing_uuid
+from legalbot.apps.users.tests.conftest import \
+    create_admin_fixture as admin_create_fixture
+from legalbot.apps.users.tests.conftest import \
+    create_user_fixture as user_create_fixture
+from legalbot.apps.users.tests.conftest import \
+    get_create_partners_fixture as create_partner_fixture
+from legalbot.apps.users.tests.conftest import \
+    non_existing_identification_number as global_non_existing_identification_number
+from legalbot.apps.users.tests.conftest import \
+    non_existing_uuid as global_non_existing_uuid
 
 
 @pytest.fixture

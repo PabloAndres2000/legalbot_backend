@@ -36,8 +36,7 @@ class CreateBusinessSerializer(serializers.Serializer):
             raise serializers.ValidationError("name is required.")
 
         if not identification_number:
-            raise serializers.ValidationError(
-                "Identification number is required.")
+            raise serializers.ValidationError("Identification number is required.")
 
         existing_business_identification_number = (
             business_providers.check_if_business_identification_number_exist(

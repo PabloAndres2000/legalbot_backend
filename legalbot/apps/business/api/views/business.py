@@ -132,12 +132,10 @@ class BusinessViewSet(viewsets.ViewSet):
 
         paginator = self.pagination_class()
         paginated_partners = paginator.paginate_queryset(partners, request)
-        paginated_administrators = paginator.paginate_queryset(
-            administrators, request)
+        paginated_administrators = paginator.paginate_queryset(administrators, request)
 
         serializer = PartnerAdministratorSerializer(
-            {"partners": paginated_partners,
-                "administrators": paginated_administrators}
+            {"partners": paginated_partners, "administrators": paginated_administrators}
         )
 
         return paginator.get_paginated_response(serializer.data)

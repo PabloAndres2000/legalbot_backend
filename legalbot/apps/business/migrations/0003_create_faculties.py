@@ -3,9 +3,11 @@ from legalbot.apps.business.models import Faculty
 
 
 def create_faculties(apps, schema_editor):
-
-    faculties_name = ["Abrir cuentas corrientes",
-                      "Firmar contratos de compraventa", "Firmar cheques"]
+    faculties_name = [
+        "Abrir cuentas corrientes",
+        "Firmar contratos de compraventa",
+        "Firmar cheques",
+    ]
     for name in faculties_name:
         Faculty.objects.create(
             name=name,
@@ -13,10 +15,9 @@ def create_faculties(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         # Add the dependency on the previous migration
-        ('business', '0002_create_business'),
+        ("business", "0002_create_business"),
     ]
 
     operations = [

@@ -8,9 +8,7 @@ from legalbot.utils.models import BaseModel
 class User(BaseModel, AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255, null=True, blank=True)
-    identification_number = models.CharField(
-        max_length=12, unique=True
-    )
+    identification_number = models.CharField(max_length=12, unique=True)
     ip_address = models.JSONField(default=dict, null=True, blank=True)
     is_staff = models.BooleanField(default=False)
 
@@ -39,8 +37,7 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
 
 
 class Partner(BaseModel):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="partners")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="partners")
     business = models.ForeignKey(
         "business.Business", on_delete=models.CASCADE, related_name="partners"
     )
