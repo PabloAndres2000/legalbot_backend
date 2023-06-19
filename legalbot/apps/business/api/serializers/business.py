@@ -6,6 +6,34 @@ from legalbot.apps.users.api.serializers.admin import AdministratorListSerialize
 from legalbot.apps.users.api.serializers.partner import PartnerListSerializer
 
 
+class UserOwnedBusinessesSerializer(serializers.ModelSerializer):
+    partners = serializers.SerializerMethodField()
+    admins = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Business
+        fields = [
+            "uuid",
+            "name",
+            "identification_number",
+            "is_active",
+            "partners",
+            "admins",
+        ]
+
+    def get_partners(self, obj):
+        partners = obj.partners.filter(user__identification_number=self.context["rut"])
+        serializer = PartnerListSerializer(partners, many=True)
+        return serializer.data
+
+    def get_admins(self, obj):
+        admins = obj.administrators.filter(
+            user__identification_number=self.context["rut"]
+        )
+        serializer = AdministratorListSerializer(admins, many=True)
+        return serializer.data
+
+
 class BusinessListSerializer(serializers.ModelSerializer):
     partners = PartnerListSerializer(many=True, read_only=True)
     admins = AdministratorListSerializer(
