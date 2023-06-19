@@ -31,7 +31,7 @@ class BusinessAccessPolicy(AccessPolicy):
             "effect": "allow",
         },
         {
-            "action": ["get_business_by_rut"],
+            "action": ["get_businesses_with_partner_or_admin_by_rut"],
             "principal": ["group:admin"],
             "effect": "allow",
         },
@@ -89,20 +89,24 @@ class BusinessViewSet(viewsets.ViewSet):
 
         return Response(serializer.data, status=204)
 
-    # GET: api/business/get_business_by_rut/?rut=
+    # GET: api/business/get_businesses_with_partner_or_admin_by_rut/?rut=
     @action(
         detail=False,
         methods=["get"],
         url_name="get-business-by-rut",
-        url_path="get_business_by_rut",
+        url_path="get_businesses_with_partner_or_admin_by_rut",
     )
-    def get_business_by_rut(self, request):
+    def get_businesses_with_partner_or_admin_by_rut(self, request):
         rut = request.GET.get("rut")
         business = business_providers.get_business_by_manager_or_partner_id_number(
             identification_number=rut
         )
         if not business:
-            return Response({"message": "No business found for the provided RUT."})
+            return Response(
+                {
+                    "message": "This RUT cannot be found to see which company the partner or administrator belongs to."
+                }
+            )
 
         paginator = self.pagination_class()
         paginated_business = paginator.paginate_queryset(business, request)
