@@ -9,6 +9,7 @@ from legalbot.apps.business.api.serializers.business import (
     BusinessListSerializer,
     CreateBusinessSerializer,
     PartnerAdministratorSerializer,
+    UserOwnedBusinessesSerializer,
 )
 from legalbot.apps.business.providers import business as business_providers
 from legalbot.utils.constants import DATA_NOT_FOUND, TRY_AGAIN_LATER
@@ -110,7 +111,9 @@ class BusinessViewSet(viewsets.ViewSet):
 
         paginator = self.pagination_class()
         paginated_business = paginator.paginate_queryset(business, request)
-        serializer = BusinessListSerializer(paginated_business, many=True)
+        serializer = UserOwnedBusinessesSerializer(
+            paginated_business, many=True, context={"rut": rut}
+        )
         return paginator.get_paginated_response(serializer.data)
 
     # GET: api/business/get_partners_admins_by_rut/?rut=
