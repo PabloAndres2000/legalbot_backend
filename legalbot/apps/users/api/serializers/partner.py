@@ -11,6 +11,7 @@ class PartnerListSerializer(serializers.ModelSerializer):
     identification_number = serializers.CharField(source="user.identification_number")
     first_name = serializers.CharField(source="user.first_name")
     last_name = serializers.CharField(source="user.last_name")
+    business_name = serializers.ReadOnlyField(source="business.name")
 
     group = GroupSerializer(many=True, read_only=True, source="user.groups")
 
@@ -18,6 +19,8 @@ class PartnerListSerializer(serializers.ModelSerializer):
         model = Partner
         fields = [
             "uuid",
+            "business",
+            "business_name",
             "identification_number",
             "first_name",
             "last_name",
